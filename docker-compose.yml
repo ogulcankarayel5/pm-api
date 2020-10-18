@@ -1,0 +1,42 @@
+version: '3'
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+  
+    ports:
+      - '27017:27017'
+  redis: 
+    image: redis
+    
+
+  app:
+    container_name: password-manager-docker
+    image: app
+    restart: always
+    build: .
+    
+    ports:
+      - '80:5000'
+    links: 
+      - mongo
+      - redis
+    environment: 
+      MONGODB_URI: ${MONGODB_URI}
+      clientID: ${clientID}
+      clientSecret : ${clientSecret}
+      PORT: ${PORT}
+      NODE_ENV : ${NODE_ENV}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_EXPIRE: ${JWT_EXPIRE}
+      REFRESH_TOKEN: ${REFRESH_TOKEN}
+      JWT_REFRESH_SECRET_KEY: ${JWT_REFRESH_SECRET_KEY}
+      JWT_REFRESH_EXPIRE: ${JWT_REFRESH_EXPIRE}
+      JWT_COOKIE: ${JWT_COOKIE}
+     
+
+
+
+  
+
