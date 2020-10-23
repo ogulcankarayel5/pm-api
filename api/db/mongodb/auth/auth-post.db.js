@@ -20,7 +20,7 @@ const saveUserAfterResetPassword = async (email) => {
 
     const filter = {email:email}
     const update = {resetPasswordToken:undefined,resetPasswordExpire:undefined}
-    await User.findOneAndUpdate(filter,update,{new:true,upsert:true})
+    await User.findOneAndUpdate(filter,update,{upsert:true})
     
 
     // user.resetPasswordToken=undefined

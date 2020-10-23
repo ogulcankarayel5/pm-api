@@ -25,6 +25,7 @@ const register = asyncHandler(async (req, res, next) => {
   };
 
   const user = await authService.register(userInfo);
+  
   tokenHelpers.responseUserWithTokens(res, user);
 });
 

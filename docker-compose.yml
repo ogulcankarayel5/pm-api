@@ -27,13 +27,18 @@ services:
       clientID: ${clientID}
       clientSecret : ${clientSecret}
       PORT: ${PORT}
-      NODE_ENV : ${NODE_ENV}
+     
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_EXPIRE: ${JWT_EXPIRE}
       REFRESH_TOKEN: ${REFRESH_TOKEN}
       JWT_REFRESH_SECRET_KEY: ${JWT_REFRESH_SECRET_KEY}
       JWT_REFRESH_EXPIRE: ${JWT_REFRESH_EXPIRE}
       JWT_COOKIE: ${JWT_COOKIE}
+      SMTP_HOST:${SMTP_HOST}
+      SMTP_PORT:${SMTP_PORT}
+      SMTP_USER:${SMTP_USER}
+      SMTP_PASS:${SMTP_PASS}
+      
      
 
 

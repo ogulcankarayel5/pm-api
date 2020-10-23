@@ -1,6 +1,7 @@
 // import { registerDb,loginDb } from "../../db/mongodb/auth/auth-post.db";
 // import CustomError from "../../helpers/error/CustomError";
 // import { comparePassword } from "../../helpers/input/inputHelpers";
+const { compareSync } = require("bcrypt");
 const authDb = require("../../db/mongodb/auth/auth-post.db");
 
 const { comparePassword } = require("../../helpers/input/inputHelpers");
@@ -32,8 +33,9 @@ const login = async (userInfo) => {
 
 const forgotPassword = async (user) => {
   const resetToken = user.getResetTokenFromUser();
+ 
   await authDb.saveUser(user);
- await  sendResetPasswordEmailWithToken(resetToken, user.email);
+  await  sendResetPasswordEmailWithToken(resetToken, user.email);
 };
 
 const saveUserAfterResetPassword = async (email) => {
