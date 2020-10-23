@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -23,11 +23,15 @@
     "express-validator": "^6.6.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.2",
+    "nodemailer": "^6.4.14",
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
     "passport-google-plus-token": "^2.1.0",
     "passport-google-token": "^0.1.2",
     "passport-token-google2": "^0.1.4",
     "rand-token": "^1.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

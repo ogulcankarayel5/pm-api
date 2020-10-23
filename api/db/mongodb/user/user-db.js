@@ -11,9 +11,17 @@ const getById = async (id) => {
 }
 
 const findByEmail = async (email) => {
-    const user = User.findOne({email});
+    const user = await User.findOne({email:email});
+    
     return user;
 }
 
 
-module.exports = userDb = {getById,findByEmail}
+const findOne = async (credentials) => {
+    const user =await  User.findOne(credentials)
+    return user
+}
+
+
+
+module.exports = userDb = {getById,findByEmail,findOne}

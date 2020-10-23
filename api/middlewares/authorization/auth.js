@@ -9,6 +9,9 @@ const jwt = require("jsonwebtoken");
 const tokenHelpers = require("../../helpers/authorization/tokenHelpers");
 const CustomError = require("../../helpers/error/CustomError");
 const redisAuthHelper = require("../../helpers/redis/auth");
+const userService = require("../../services/user/user.service")
+
+const asyncHandler = require("express-async-handler");
 
 const getAccessToRefreshToken = async (req, res, next) => {
   const { JWT_REFRESH_SECRET_KEY } = process.env;
@@ -74,6 +77,7 @@ const getAccessToRoute = (req, res, next) => {
     }
 
     req.user = {
+      
       id: decoded.id,
       name: decoded.name,
     };
@@ -81,5 +85,20 @@ const getAccessToRoute = (req, res, next) => {
   });
 };
 
-module.exports = authMiddleware = { getAccessToRoute, getAccessToRefreshToken };
+
+const checkUserExistWithEmail =asyncHandler( async (req,res,next) => {
+
+  const resetEmail = req.body.email
+  
+  const user =await userService.getByEmail(resetEmail)
+  
+  if(!user){
+    return next(new CustomError("There isn't such a user with that email",404))
+
+  }
+  req.user = user
+  return next()
+
+})
+module.exports = authMiddleware = { getAccessToRoute, getAccessToRefreshToken,checkUserExistWithEmail };
 //export { getAccessToRoute };
