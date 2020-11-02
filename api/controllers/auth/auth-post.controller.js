@@ -31,7 +31,7 @@ const register = asyncHandler(async (req, res, next) => {
 
 const signInWithGoogle = asyncHandler(async (req, res, next) => {
   //console.log(req)
-
+  console.log("cookies: " ,req.cookies.refresh_token)
   const { user } = req;
   if (user === null) {
     return next(new CustomError("Kullanıcı ilişkilendirilemedi", 400));
@@ -64,6 +64,7 @@ const logout = asyncHandler(async (req, res, next) => {
     .cookie({
       expires: new Date(Date.now()),
       secure: NODE_ENV === "development" ? false : true,
+      httpOnly:NODE_ENV==="development" ? false : true
     })
     .json({
       success: true,
@@ -111,7 +112,8 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 const resetPassword = asyncHandler(async (req, res, next) => {
   const { resetPasswordToken } = req.query;
   const { password } = req.body;
-
+  console.log("token:" ,resetPasswordToken)
+  console.log("password: ",password)
   if (!resetPasswordToken) {
     return next(new CustomError("Please provide a token", 400));
   }

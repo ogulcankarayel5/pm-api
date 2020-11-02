@@ -26,8 +26,8 @@ const validateRefreshToken = async (userId) => {
     return result;
 }
 
-const inValidateRefreshToken = async (id) => {
-    const result = await redisClient.hdel(REFRESH_TOKEN_KEY,id);
+const inValidateRefreshToken = async (refreshToken) => {
+    const result = await redisClient.hdel(REFRESH_TOKEN_KEY,refreshToken);
     return result;
 }
 

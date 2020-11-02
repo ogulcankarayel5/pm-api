@@ -13,9 +13,12 @@ const responseUserWithTokens = (res,user) => {
   return res
   .status(200)
   .cookie(REFRESH_TOKEN, refresh_token, {
+   //30d expire time 
+    expires: new Date(Date.now() + parseInt(JWT_COOKIE) * 30),
+    secure:NODE_ENV === "development" ? false : true,
+    httpOnly:true
     
-    expires: new Date(Date.now() + parseInt(JWT_COOKIE) * 1000 * 60),
-    secure: NODE_ENV === "development" ? false : true,
+    
   })
   .json({
     success: true,
@@ -29,7 +32,7 @@ const responseUserWithTokens = (res,user) => {
 
 //must be releated id
 const removeRefreshTokenForLogout = async (id) => {
-   await inValidateRefreshToken(JSON.stringify(id));
+   await redisAuthHelper.inValidateRefreshToken(JSON.stringify(id));
 }
 
 const prepareJwtToken = user => {

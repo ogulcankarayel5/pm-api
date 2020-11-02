@@ -9,7 +9,7 @@ const limiter = require("../helpers/limiters/auth.limiter");
 const authMiddleware = require('../middlewares/authorization/auth');
 
 
-router.post("/token",limiter.refreshTokenLimiter,authMiddleware.getAccessToRefreshToken,authController.refreshToken)
+router.post("/token",authMiddleware.getAccessToRefreshToken,authController.refreshToken)
 router.post("/register",limiter.registerLimiter,baseValidationRules(),extraValidationRules(), validate,authController.register);
 router.post("/login",limiter.loginLimiter, baseValidationRules(), validate,authController.login);
 router.post("/google/token",limiter.registerLimiter,passport.authenticate('google-token',{scope:['profile','email','openid']}),authController.signInWithGoogle);

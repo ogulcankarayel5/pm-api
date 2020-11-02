@@ -4,41 +4,54 @@ services:
   mongo:
     container_name: mongo
     image: mongo
+    networks:
+      - webnet
   
     ports:
       - '27017:27017'
-  redis: 
+  redis:
+    container_name: redis
     image: redis
+    networks:
+      - webnet
+    ports:
+      - '6379:6379'
     
 
   app:
     container_name: password-manager-docker
     image: app
+    networks:
+      - webnet
     restart: always
     build: .
     
     ports:
       - '80:5000'
-    links: 
+    depends_on: 
       - mongo
       - redis
     environment: 
+      REDIS_PORT: ${REDIS_PORT}
+      
       MONGODB_URI: ${MONGODB_URI}
       clientID: ${clientID}
       clientSecret : ${clientSecret}
       PORT: ${PORT}
-     
+      NODE_ENV: ${NODE_ENV}
+      REDIS_HOST: ${REDIS_HOST}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_EXPIRE: ${JWT_EXPIRE}
       REFRESH_TOKEN: ${REFRESH_TOKEN}
       JWT_REFRESH_SECRET_KEY: ${JWT_REFRESH_SECRET_KEY}
       JWT_REFRESH_EXPIRE: ${JWT_REFRESH_EXPIRE}
       JWT_COOKIE: ${JWT_COOKIE}
-      SMTP_HOST:${SMTP_HOST}
-      SMTP_PORT:${SMTP_PORT}
-      SMTP_USER:${SMTP_USER}
-      SMTP_PASS:${SMTP_PASS}
-      
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+networks:
+  webnet:      
      
 
 

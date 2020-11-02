@@ -19,9 +19,10 @@ const getAccessToRefreshToken = async (req, res, next) => {
   // const result = await redisAuthHelper.validateRefreshToken(
   //   req.body.refreshToken
   // );
-
-  if (req.body.refreshToken) {
-    jwt.verify(req.body.refreshToken,
+  console.log("cookies: " ,req.cookies.refresh_token)
+  const {refresh_token} = req.cookies
+  if (refresh_token) {
+    jwt.verify(refresh_token,
       JWT_REFRESH_SECRET_KEY,
       async (err, decoded) => {
         if (err) {
@@ -37,7 +38,7 @@ const getAccessToRefreshToken = async (req, res, next) => {
           console.log("decoded id:" ,decoded.id);
           req.userId = decoded.id;
           const result = await redisAuthHelper.validateRefreshToken(decoded.id);
-          if (result === req.body.refreshToken) {
+          if (result === refresh_token) {
             return next();
           } else {
             return next(new CustomError("Invalid refresh token..", 401));
@@ -77,13 +78,13 @@ const getAccessToRoute = (req, res, next) => {
     }
 
     req.user = {
-      
       id: decoded.id,
       name: decoded.name,
     };
     return next();
   });
 };
+
 
 
 const checkUserExistWithEmail =asyncHandler( async (req,res,next) => {

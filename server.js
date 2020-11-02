@@ -1,5 +1,6 @@
 
 const express = require("express");
+var cookieParser = require('cookie-parser')
 const compression = require('compression');
 const dotenv=require("dotenv");
 const path=require("path");
@@ -27,9 +28,11 @@ require('./api/services/passport/passport');
 
 
 app.use(compression());
+app.use(cookieParser())
 app.use(express.json());
 app.use(passport.initialize());
-app.use(cors());
+// our Express application to be able to receive requests from the host on which the Fetch API makes the calls 
+app.use(cors({credentials:true,origin:true}));
 // initalize passport
 
 app.use("/api",routers);
